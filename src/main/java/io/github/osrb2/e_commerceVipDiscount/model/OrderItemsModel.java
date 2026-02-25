@@ -10,6 +10,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -25,11 +26,11 @@ public class OrderItemsModel {
   private Long id;
 
   @ManyToOne
-  @Column(name = "order_id", nullable = false)
+  @JoinColumn(name = "order_id", nullable = false)
   private OrderModel order;
 
   @ManyToOne
-  @Column(name = "product_id", nullable = false)
+  @JoinColumn(name = "product_id", nullable = false)
   private ProductModel product;
 
   @Column(name = "quantity", nullable = false)
