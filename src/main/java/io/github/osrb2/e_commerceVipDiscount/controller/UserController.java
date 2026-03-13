@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +52,11 @@ public class UserController {
   public ResponseEntity<UserModel> updateUser(@PathVariable Long id, @RequestBody @Valid UserModel user) {
     user.setId(id);
     return ResponseEntity.ok(service.updateUserById(user));  
-    
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<UserModel> deleteUser(@PathVariable Long id) {
+    service.deleteUserById(id);
+    return ResponseEntity.noContent().build();
   }
 }
