@@ -21,6 +21,8 @@ public class OrderService {
 
   public OrderModel createOrder(OrderModel order, UserModel user) {
 
+    order.getItems().forEach(item -> item.setOrder(order));
+
     BigDecimal totalGross = calculateGross(order);
     BigDecimal totalNet =  discountContext.applyDiscount(user.getRole(), totalGross);
     BigDecimal discountAmount = totalGross.subtract(totalNet);
