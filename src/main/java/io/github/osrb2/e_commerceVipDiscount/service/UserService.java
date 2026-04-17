@@ -3,11 +3,13 @@ package io.github.osrb2.e_commerceVipDiscount.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.osrb2.e_commerceVipDiscount.model.UserModel;
 import io.github.osrb2.e_commerceVipDiscount.repository.UserRepository;
+import io.github.osrb2.e_commerceVipDiscount.service.event.UserCreatedEvent;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -15,9 +17,12 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
   private final UserRepository repository;
+  private final ApplicationEventPublisher eventPublisher;
 
   public UserModel register(UserModel user) {
-    return repository.save(user);
+    UserModel saved = repository.save(user);
+    eventPublisher.publishEvent(new UserCreatedEvent(saved));
+    return saved;
   }
 
   public List<UserModel> listAllUsers() {
