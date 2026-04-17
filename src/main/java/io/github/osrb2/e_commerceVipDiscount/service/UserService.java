@@ -43,7 +43,7 @@ public class UserService {
     UserModel userToUpdate = repository.findById(user.getId())
       .orElseThrow(() -> new RuntimeException("User not found!"));
 
-    if (userToUpdate.getEmail() == user.getEmail()) {
+    if (userToUpdate.getEmail().equals(user.getEmail())) {
       throw new RuntimeException("This email already exists!");
     } else {
       Optional.ofNullable(user.getEmail()).ifPresent(userToUpdate::setEmail);
