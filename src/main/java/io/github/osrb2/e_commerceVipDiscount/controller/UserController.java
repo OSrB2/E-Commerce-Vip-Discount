@@ -3,6 +3,7 @@ package io.github.osrb2.e_commerceVipDiscount.controller;
 import java.util.List;
 import java.util.Optional;
 
+import io.github.osrb2.e_commerceVipDiscount.model.dtos.UserResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,7 +35,7 @@ public class UserController {
   }
 
   @GetMapping()
-  public ResponseEntity<List<UserModel>> listAll() {
+  public ResponseEntity<List<UserResponseDto>> listAll() {
     return ResponseEntity.ok(service.listAllUsers());
   }
 

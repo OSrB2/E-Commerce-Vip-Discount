@@ -1,8 +1,12 @@
 package io.github.osrb2.e_commerceVipDiscount.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import io.github.osrb2.e_commerceVipDiscount.model.dtos.UserResponseDto;
+import io.github.osrb2.e_commerceVipDiscount.model.mappers.UserMapper;
+import org.apache.catalina.User;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +22,7 @@ public class UserService {
 
   private final UserRepository repository;
   private final ApplicationEventPublisher eventPublisher;
+  private final UserMapper userMapper;
 
   public UserModel register(UserModel user) {
     UserModel saved = repository.save(user);
@@ -25,9 +30,19 @@ public class UserService {
     return saved;
   }
 
-  public List<UserModel> listAllUsers() {
+  public List<UserResponseDto> listAllUsers() {
     List<UserModel> users = repository.findAll();
-    return users;
+
+    if (users.isEmpty()) {
+      throw new RuntimeException("Users not found!");
+    }
+
+    List<UserResponseDto> userDto = new ArrayList<>();
+
+    for (UserModel user : users) {
+        userDto.add(userMapper.toResponseDto(user));
+    }
+    return userDto;
   }
 
   public Optional<UserModel> findById(Long id) {
